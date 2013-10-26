@@ -42,21 +42,20 @@ def get_delay
   time - now
 end
 
-$serial = File.open("/dev/ttyUSB0", "r+")
-
-#Thread.new do
-#  loop do
-#    p $serial.sysread(100)
-#  end
-#end
+Thread.new do
+  serial = File.open("/dev/ttyUSB0", "r")
+  loop do
+    p serial.sysread(100)
+  end
+  serial.close
+end
 
 def set_color(r,g,b)
+  serial = File.open("/dev/ttyUSB0", "w")
   command = [r,g,b].join(",")
   p command
-  $serial.syswrite(command + "\n")
-  while $serial.ready?
-    p $serial.sysread(80)
-  end
+  serial.syswrite(command + "\n")
+  serial.close
 end
 
 def button_pressed?
