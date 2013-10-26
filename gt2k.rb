@@ -59,9 +59,14 @@ end
 
 Infinity = Float::INFINITY
 
+def sound(name)
+  system "madplay /music/#{name} -a12 &"
+end
+
 def run_alarm
   last_update = nil
   arrival = nil
+  minutes_before = nil
   loop do
     return if button_pressed?
 
@@ -74,6 +79,13 @@ def run_alarm
 
     minutes = (arrival - now) / 60.0
     p minutes: minutes
+
+    if minutes_before
+      if minutes.to_i != minutes_before.to_i #< 5 and before_minutes > 5
+        sound "SF-Alarmradar.mp3"
+      end
+    end
+    minutes_before = minutes
 
     case minutes
     when 20.0..Infinity
