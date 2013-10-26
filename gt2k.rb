@@ -1,5 +1,6 @@
 require 'net/http'
 require 'time'
+require 'io/wait'
 
 def get_delay
   url = 'http://data.keolis-rennes.com/xml/'
@@ -34,11 +35,19 @@ def get_delay
   time - now
 end
 
+Thread.new do
+  serial = File.open("/dev/ttyUSB0", "r")
+  loop do
+    p serial.sysread(100)
+  end
+  serial.close
+end
+
 def set_color(r,g,b)
-  serial = File.open("/dev/ttyUSB0", "r+")
+  serial = File.open("/dev/ttyUSB0", "w")
   command = [r,g,b].join(",")
   p command
-  serial.puts(command) 
+  serial.syswrite(command + "\n")
   serial.close
 end
 
