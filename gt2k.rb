@@ -1,6 +1,7 @@
 require 'bundler/setup'
 
 require 'httparty'
+require 'nokogiri'
 
 url = 'http://data.keolis-rennes.com/xml/'
 query = {
@@ -21,8 +22,8 @@ query = {
 page = HTTParty.get(url, query: query)
 
 doc = Nokogiri::XML.parse(page.body)
-puts doc
 
 node = doc.css("departure").first
-puts node.text
+time = Time.parse(node.text)
+p time
 
