@@ -99,11 +99,15 @@ def run_alarm
   end
 end
 
+at_exit do
+  set_color(0,0,0)
+end
 
 loop do
   set_color(0,0,0)
   $serial.wait
   if button_pressed?
+    set_color(0,0,64)
     run_alarm
   end
 end
