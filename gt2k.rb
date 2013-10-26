@@ -41,24 +41,20 @@ def get_delay
   time - now
 end
 
-Thread.new do
-  serial = File.open("/dev/ttyUSB0", "r")
-  loop do
-    p serial.sysread(100)
-  end
-  serial.close
-end
+$serial = File.open("/dev/ttyUSB0", "w+")
 
 def set_color(r,g,b)
-  serial = File.open("/dev/ttyUSB0", "w")
   command = [r,g,b].join(",")
   p command
-  serial.syswrite(command + "\n")
-  serial.close
+  $serial.syswrite(command + "\n")
 end
 
 def button_pressed?
-  true
+  while $serial.ready?
+    if $serial.gets.strip == "Button_pressed"
+      return true
+    end
+  end
 end
 
 Infinity = Float::INFINITY
@@ -67,6 +63,8 @@ def run_alarm
   last_update = nil
   arrival = nil
   loop do
+    return if button_pressed?
+
     now = Time.now
     if last_update.nil? or now >= last_update + 30
       puts "update"
@@ -101,7 +99,10 @@ def run_alarm
   end
 end
 
+
 loop do
+  set_color(0,0,0)
+  $serial.wait
   if button_pressed?
     run_alarm
   end
