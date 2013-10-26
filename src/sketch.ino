@@ -12,12 +12,10 @@ void setup()
 void loop()
 {
   int i;
-  for (i=0; i<6; i++) {
-    digitalWrite(i,HIGH);
+  for (i=0; i<255; i++) {
+    analogWrite(0,i);
+    analogWrite(1,i);
+    analogWrite(4,i);
+    delay(10);
   }
-  delay(300);
-  for (i=0; i<6; i++) {
-    digitalWrite(i,LOW);
-  }
-  delay(300);
 }
