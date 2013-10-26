@@ -3,6 +3,7 @@ require 'time'
 require 'io/wait'
 
 def get_delay
+  return 3*60
   url = 'http://data.keolis-rennes.com/xml/'
   query = {
     cmd: 'getbusnextdepartures',
