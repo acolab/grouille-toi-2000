@@ -22,8 +22,8 @@ response = Net::HTTP.get_response(uri)
 puts response.body
 exit
 doc = Nokogiri::XML.parse(page.body)
-
-node = doc.css("departure").first
-time = Time.parse(node.text)
+if doc =~ /<departure.*?>.+?<\/departure>/
+  time = Time.parse($1)
+end
 p time
 
