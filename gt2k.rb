@@ -3,7 +3,6 @@ require 'time'
 require 'io/wait'
 
 def get_delay
-  return 3*60
   url = 'http://data.keolis-rennes.com/xml/'
   query = {
     cmd: 'getbusnextdepartures',
@@ -16,7 +15,7 @@ def get_delay
     #  stop: [3115],
     #}
     "param[mode]" => 'stop',
-    "param[stop][]" => "2208",
+    "param[stop][]" => "1052",
   }
   uri = URI(url)
   uri.query = URI.encode_www_form(query)
