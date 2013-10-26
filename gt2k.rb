@@ -26,12 +26,18 @@ def get_delay
 
   if response.body =~ /localdatetime="(.+?)"/
     now = Time.parse($1)
+  else
+    puts response.body
+    raise "no local time"
   end
 
   if response.body =~ /<departure.*?>(.+?)<\/departure>/
     time = $1
     puts time
     time = Time.parse(time)
+  else
+    puts response.body
+    raise "no time"
   end
   time - now
 end
