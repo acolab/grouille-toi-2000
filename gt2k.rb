@@ -20,5 +20,9 @@ query = {
 }
 page = HTTParty.get(url, query: query)
 
-puts page.body
+doc = Nokogiri::XML.parse(page.body)
+puts doc
+
+node = doc.css("departure").first
+puts node.text
 
