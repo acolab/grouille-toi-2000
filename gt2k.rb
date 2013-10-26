@@ -19,6 +19,7 @@ def get_delay
   }
   uri = URI(url)
   uri.query = URI.encode_www_form(query)
+  puts uri
   response = Net::HTTP.get_response(uri)
 
   #puts response.body
@@ -60,7 +61,8 @@ end
 Infinity = Float::INFINITY
 
 def play(name)
-  system "madplay /music/#{name} &"
+  p play: name
+  system "madplay /music/#{name}.mp3 &"
 end
 
 def run_alarm(walk_minutes = 5)
@@ -77,17 +79,22 @@ def run_alarm(walk_minutes = 5)
       last_update = now
     end
 
+    arrival = Time.local(2013, 10, 27, 2)
+
     minutes = (arrival - now) / 60.0
     p bus_minutes: minutes
-    minutes += walk_minutes
+    minutes -= walk_minutes
+    p minutes: minutes
 
+    p minutes_before: minutes_before
     if minutes_before
-      if minutes.to_i != minutes_before.to_i
-        case minutes.round
-        when 1 then play "1minute.mp3"
-        when 2 then play "2minute.mp3"
-        when 3 then play "3minute.mp3"
-        when 5 then play "5minute.mp3"
+      if minutes_before < 1 and minutes > 10
+        play "rate"
+      elsif minutes.to_i != minutes_before.to_i
+        case n = minutes.round
+        when 1 then play "1minute_0"
+        when 2..5, 10 then play "#{n}minutes_0"
+        when 0 then play "maintenant"
         end
       end
     end
@@ -117,16 +124,20 @@ def run_alarm(walk_minutes = 5)
   end
 end
 
-at_exit do
-  set_color(0,0,0)
-end
+if $0 == __FILE__
+  at_exit do
+    set_color(0,0,0)
+  end
 
-loop do
-  set_color(0,0,0)
-  #$serial.wait
-  if true #button_pressed?
-    play("active.mp3")
-    set_color(0,0,64)
-    run_alarm
+  play "pret"
+
+  loop do
+    set_color(0,0,0)
+    $serial.wait
+    if button_pressed?
+      play("active")
+      set_color(0,0,64)
+      run_alarm
+    end
   end
 end

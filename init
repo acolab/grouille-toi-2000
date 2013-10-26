@@ -1,0 +1,22 @@
+#!/bin/sh /etc/rc.common
+# Example script
+# Copyright (C) 2007 OpenWrt.org
+ 
+START=40
+STOP=15
+
+PID=/var/run/grouille-toi-2000.pid
+
+start() {        
+        [ -e $PID ] && stop()
+        echo start
+        cd /root/grouille-toi-2000
+        ruby gt2k.rb &
+        echo $! >$PID
+}                 
+ 
+stop() {          
+        echo stop
+        kill `cat $PID`
+        rm $PID
+}
