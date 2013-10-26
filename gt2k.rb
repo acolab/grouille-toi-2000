@@ -19,9 +19,18 @@ uri = URI(url)
 uri.query = URI.encode_www_form(query)
 response = Net::HTTP.get_response(uri)
 
+puts response.body
+
+if response.body =~ /localdatetime="(.+?)"/
+  now = Time.parse($1)
+end
+
 if response.body =~ /<departure.*?>(.+?)<\/departure>/
   time = $1
   time = Time.parse(time)
 end
-p time
+remaining = time - now
+minutes = remaining / 60.0
+puts minutes
+
 
