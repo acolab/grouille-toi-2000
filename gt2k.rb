@@ -15,7 +15,7 @@ query = {
   #}
   param: {
     mode: 'stop',
-    stop: ["2208", "3216"],
+    stop: ["2208"],
   }
 }
 page = HTTParty.get(url, query: query)
