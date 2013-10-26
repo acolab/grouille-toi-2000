@@ -1,7 +1,4 @@
-require 'bundler/setup'
-
-require 'httparty'
-require 'nokogiri'
+require 'net/http'
 
 url = 'http://data.keolis-rennes.com/xml/'
 query = {
@@ -19,8 +16,11 @@ query = {
     stop: ["2208"],
   }
 }
-page = HTTParty.get(url, query: query)
-
+uri = URI(url)
+uri.query = URI.encode_www_form(query)
+response = Net::HTTP.get_response(uri)
+puts response.body
+exit
 doc = Nokogiri::XML.parse(page.body)
 
 node = doc.css("departure").first
