@@ -1,4 +1,5 @@
 require 'net/http'
+require 'time'
 
 url = 'http://data.keolis-rennes.com/xml/'
 query = {
@@ -11,19 +12,16 @@ query = {
   #  direction: [0],
   #  stop: [3115],
   #}
-  param: {
-    mode: 'stop',
-    stop: ["2208"],
-  }
+  "param[mode]" => 'stop',
+  "param[stop][]" => "2208",
 }
 uri = URI(url)
 uri.query = URI.encode_www_form(query)
 response = Net::HTTP.get_response(uri)
-puts response.body
-exit
-doc = Nokogiri::XML.parse(page.body)
-if doc =~ /<departure.*?>.+?<\/departure>/
-  time = Time.parse($1)
+
+if response.body =~ /<departure.*?>(.+?)<\/departure>/
+  time = $1
+  time = Time.parse(time)
 end
 p time
 
