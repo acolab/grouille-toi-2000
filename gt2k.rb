@@ -59,11 +59,11 @@ end
 
 Infinity = Float::INFINITY
 
-def sound(name)
-  system "madplay /music/#{name} -a12 &"
+def play(name)
+  system "madplay /music/#{name} &"
 end
 
-def run_alarm
+def run_alarm(walk_minutes = 5)
   last_update = nil
   arrival = nil
   minutes_before = nil
@@ -78,11 +78,17 @@ def run_alarm
     end
 
     minutes = (arrival - now) / 60.0
-    p minutes: minutes
+    p bus_minutes: minutes
+    minutes += walk_minutes
 
     if minutes_before
-      if minutes.to_i != minutes_before.to_i #< 5 and before_minutes > 5
-        sound "SF-Alarmradar.mp3"
+      if minutes.to_i != minutes_before.to_i
+        case minutes.round
+        when 1 then play "1minute.mp3"
+        when 2 then play "2minute.mp3"
+        when 3 then play "3minute.mp3"
+        when 5 then play "5minute.mp3"
+        end
       end
     end
     minutes_before = minutes
@@ -117,8 +123,9 @@ end
 
 loop do
   set_color(0,0,0)
-  $serial.wait
-  if button_pressed?
+  #$serial.wait
+  if true #button_pressed?
+    play("active.mp3")
     set_color(0,0,64)
     run_alarm
   end
