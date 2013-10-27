@@ -1,3 +1,9 @@
+# Grouille toi 2000
+# http://wordpress.acolab.ouvrages-web.fr/2013/10/le-grouille-toi-2000/
+#
+# License: MIT
+# Copyright 2013 Acolab
+
 require 'net/http'
 require 'time'
 require 'io/wait'
