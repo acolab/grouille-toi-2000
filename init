@@ -1,6 +1,6 @@
 #!/bin/sh /etc/rc.common
-# Example script
-# Copyright (C) 2007 OpenWrt.org
+# Init script for grouille-toi-2000
+# Copyright 2013 Acolab
  
 START=40
 STOP=15
