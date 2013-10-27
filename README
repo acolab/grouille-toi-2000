@@ -1,6 +1,7 @@
-installed packages on openwrt:
+Installed ruby packages from https://dev.openwrt.org/ticket/9873#comment:13
 ruby
 ruby-gems
 ruby-core
 ruby-zlib
 ruby-enc
+and a few others required by ruby-gems
