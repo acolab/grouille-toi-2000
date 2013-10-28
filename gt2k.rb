@@ -1,3 +1,9 @@
+# Grouille toi 2000
+# http://wordpress.acolab.ouvrages-web.fr/2013/10/le-grouille-toi-2000/
+#
+# License: MIT
+# Copyright 2013 Acolab
+
 require 'net/http'
 require 'time'
 require 'io/wait'
@@ -8,12 +14,6 @@ def get_delay
     cmd: 'getbusnextdepartures',
     version: '2.1',
     key: 'RK8BUNJ7NSYTNFU',
-    #param: {
-    #  mode: 'stopline',
-    #  route: [0077],
-    #  direction: [0],
-    #  stop: [3115],
-    #}
     "param[mode]" => 'stop',
     "param[stop][]" => "1052",
   }
@@ -59,19 +59,21 @@ def button_pressed?
       return true
     end
   end
+  false
 end
-
-Infinity = Float::INFINITY
 
 def play(name)
   p play: name
   system "madplay /music/#{name}.mp3 &"
 end
 
+Infinity = Float::INFINITY
+
 def run_alarm(walk_minutes = 5)
   last_update = nil
   arrival = nil
   minutes_before = nil
+
   loop do
     return if button_pressed?
 
@@ -81,8 +83,6 @@ def run_alarm(walk_minutes = 5)
       arrival = now + get_delay
       last_update = now
     end
-
-    arrival = Time.local(2013, 10, 27, 2)
 
     minutes = (arrival - now) / 60.0
     p bus_minutes: minutes
