@@ -94,13 +94,13 @@ def run_alarm(walk_minutes = 5)
 
     p minutes_before: minutes_before
     if minutes_before
-      if minutes_before < 1 and minutes > 10
-        play "rate"
-      elsif minutes.to_i != minutes_before.to_i
+      if minutes.floor != minutes_before.floor
         case n = minutes.round
         when 1 then play "1minute_0"
         when 2..5, 10 then play "#{n}minutes_0"
         when 0 then play "maintenant"
+        when -1 then play "courir"
+        when -2 then play "rate"
         end
       end
     end
