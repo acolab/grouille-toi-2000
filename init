@@ -11,7 +11,7 @@ start() {
         [ -e $PID ] && stop()
         echo start
         cd /root/grouille-toi-2000
-        ruby gt2k.rb >/var/log/gt2k.log &
+        ruby gt2k.rb >/var/log/gt2k.log 2>&1 &
         echo $! >$PID
 }                 
  

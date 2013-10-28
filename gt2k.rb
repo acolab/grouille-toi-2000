@@ -75,7 +75,10 @@ def run_alarm(walk_minutes = 5)
   minutes_before = nil
 
   loop do
-    return if button_pressed?
+    if button_pressed?
+      puts "button pressed, stopping alarm"
+      return
+    end
 
     now = Time.now
     if last_update.nil? or now >= last_update + 30
