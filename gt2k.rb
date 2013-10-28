@@ -26,6 +26,7 @@ def get_delay
 
   if response.body =~ /localdatetime="(.+?)"/
     now = Time.parse($1)
+    p now: now
   else
     puts response.body
     raise "no local time"
@@ -33,13 +34,15 @@ def get_delay
 
   if response.body =~ /<departure.*?>(.+?)<\/departure>/
     time = $1
-    puts time
     time = Time.parse(time)
+    p departure: time
   else
     puts response.body
     raise "no time"
   end
-  time - now
+  delay = time - now
+  p delay: delay
+  delay
 end
 
 $serial = File.open("/dev/ttyUSB0", "w+")
