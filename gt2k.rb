@@ -15,7 +15,7 @@ def get_delay
     version: '2.1',
     key: 'RK8BUNJ7NSYTNFU',
     "param[mode]" => 'stop',
-    "param[stop][]" => "1052",
+    "param[stop][]" => "1056", # http://data.keolis-rennes.com/fr/les-donnees/donnees-telechargeables.html dans "stops.txt"
   }
   uri = URI(url)
   uri.query = URI.encode_www_form(query)
